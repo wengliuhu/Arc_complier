@@ -225,7 +225,7 @@ public class FactoryProcessor extends BaseProcessor
             List<TypeElement> entities = productsMap.get(returnTypeMirror.toString());
 
             if (entities == null || entities.size() == 0) continue;
-            TypeName textUtilName = ClassName.get("android.text","TextUtils");
+//            TypeName textUtilName = ClassName.get("android.text","TextUtils");
 
             for (int i = 0; i < entities.size(); i ++)
             {
@@ -233,9 +233,12 @@ public class FactoryProcessor extends BaseProcessor
                 String key = element.getAnnotation(Product.class).key();
                 TypeName backEntity = ClassName.get(ProcessorUtil.getPackageName(element), element.getSimpleName().toString());
                 if (i == 0){
-                    methodSpecBuilder.beginControlFlow("if ($T.equals($S, $L))", textUtilName, key, param);
+//                    methodSpecBuilder.beginControlFlow("if ($T.equals($S, $L))", textUtilName, key, param);
+                    methodSpecBuilder.beginControlFlow("if ($S != null && $S.equals($L))", key, key, param);
                 }else {
-                    methodSpecBuilder.nextControlFlow("else if ($T.equals($S, $L))", textUtilName, key, param);
+//                    methodSpecBuilder.nextControlFlow("else if ($T.equals($S, $L))", textUtilName, key, param);
+                    methodSpecBuilder.nextControlFlow("else if ($S != null && $S.equals($L))", key, key, param);
+
                 }
                 if (paramTypeNames.size() > 1){
                     StringBuilder builder = new StringBuilder("return new $T(");
